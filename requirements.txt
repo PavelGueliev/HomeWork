@@ -1,0 +1,4 @@
+libraries were used:
+1.PyQt5
+2.sqlite3
+3.sys
