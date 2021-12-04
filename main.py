@@ -167,4 +167,4 @@ if __name__ == '__main__':
     w = MainWindow()
     w.show()
     sys.excepthook = except_hook
-    exit(app.exec())
+    sys.exit(app.exec())
