@@ -1,15 +1,16 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
-from PyQt5 import uic
+from addEditCoffeeForm import Ui_MainWindow as Ui_CoffeeForm
+from main_form import Ui_MainWindow
 import sys
 import sqlite3
 
 
-class WindowInsertCoffe(QMainWindow):
+class WindowInsertCoffe(QMainWindow, Ui_CoffeeForm):
     def __init__(self):
         super(WindowInsertCoffe, self).__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.add_items)
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.con = sqlite3.connect('data/coffee.sqlite')
 
     def add_items(self):
         if ((not self.lineEdit.text()) or (not self.lineEdit_2.text())
@@ -46,10 +47,10 @@ class WindowInsertCoffe(QMainWindow):
         self.con.commit()
 
 
-class WindowUpdateCoffe(QMainWindow):
+class WindowUpdateCoffe(QMainWindow, Ui_CoffeeForm):
     def __init__(self, id_coffee, name, degree_of_roasting, state, description, cost, volume):
         super(WindowUpdateCoffe, self).__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.add_items)
         self.lineEdit.setText(name)
         self.comboBox.setCurrentText(degree_of_roasting)
@@ -58,7 +59,7 @@ class WindowUpdateCoffe(QMainWindow):
         self.lineEdit_4.setText(cost)
         self.lineEdit_5.setText(volume)
         self.id = id_coffee
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.con = sqlite3.connect('data/coffee.sqlite')
 
     def add_items(self):
         self.statusBar().showMessage('')
@@ -95,17 +96,17 @@ class WindowUpdateCoffe(QMainWindow):
         self.con.commit()
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.update_result_table()
-        self.con = sqlite3.connect("coffee.sqlite")
+        self.con = sqlite3.connect("data/coffee.sqlite")
         self.pushButton.clicked.connect(self.insert_coffee)
         self.pushButton_2.clicked.connect(self.update_coffee)
 
     def update_result_table(self):
-        self.con = sqlite3.connect("coffee.sqlite")
+        self.con = sqlite3.connect("data/coffee.sqlite")
         cur = self.con.cursor()
 
         result = cur.execute('''
